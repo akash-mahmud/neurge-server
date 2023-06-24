@@ -1,0 +1,50 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./build/index.js",
+    "dev": "node ./build/index.js",
+    "start-typescript": "nodemon ./src/index.ts",
+    "start-typescript-dev": "nodemon ./src/index.ts --watch",
+    "build": "swc src --out-dir build",
+    "test": "jest -i --coverage --detectOpenHandles",
+    "test:watch": "jest --watch --detectOpenHandles"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.7.4",
+    "@graphql-tools/schema": "^10.0.0",
+    "@prisma/client": "^4.16.1",
+    "@types/graphql-fields": "^1.3.5",
+    "body-parser": "^1.20.2",
+    "class-validator": "^0.14.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "graphql": "^16.7.1",
+    "graphql-fields": "^2.0.3",
+    "graphql-middleware": "^6.1.34",
+    "graphql-scalars": "^1.22.2",
+    "graphql-shield": "^7.6.5",
+    "jsonwebtoken": "^9.0.0",
+    "reflect-metadata": "^0.1.13",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.5.3",
+    "type-graphql": "2.0.0-beta.2",
+    "typescript": "^5.1.3"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.1.62",
+    "@swc/core": "^1.3.66",
+    "@types/body-parser": "^1.19.2",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/node": "^20.3.1",
+    "nodemon": "^2.0.22",
+    "typegraphql-prisma": "^0.26.0"
+  }
+}

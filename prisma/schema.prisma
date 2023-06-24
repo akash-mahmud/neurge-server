@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+generator typegraphql {
+  provider = "typegraphql-prisma"
+}
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+enum UserRole {
+  admin
+  superadmin
+  public
+  
+}
+model User {
+  id String @id @default(uuid()) 
+
+name String
+avater String?
+  email        String        @unique
+  password     String 
+  role         UserRole
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+}
+model Prompt {
+  id String @id @default(uuid())
+
+name String
+
+ description String @db.Text
+taskId String
+task  Task?  @relation(fields: [taskId], references: [id])
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+}
+
+model Task {
+  id String @id @default(uuid())
+
+name String
+slug String @unique
+tags String[]
+imoji String
+ description String @db.Text
+ prompts Prompt[]
+ tips Tip[]
+categoryId String
+category  Category?  @relation(fields: [categoryId], references: [id])
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+}
+
+model Product {
+  id String @id @default(uuid())
+
+name String
+slug String @unique
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+}
+model Tip {
+  id String @id @default(uuid())
+
+
+  description        String @db.Text    
+taskId String
+task  Task?  @relation(fields: [taskId], references: [id])
+
+}
+model Category {
+  id String @id @default(uuid())
+
+  name String
+tasks Task[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+}
