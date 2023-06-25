@@ -14,6 +14,7 @@ import { resolvers } from "@generated/type-graphql";
 import * as tq from 'type-graphql';
 import { User } from "@prisma/client";
 import permissions from "./permission";
+// import { CustomTaskCrud } from "./resolvers/Task";
 // import permissions from "./graphql/permission";
 export interface MyContext {
   prisma: any
@@ -21,7 +22,7 @@ user: User | null
 }
 
 const server:()=>Promise<ApolloServer<MyContext>> = async() => {
-  const schema = await tq.buildSchema({ resolvers , validate:true})
+  const schema = await tq.buildSchema({ resolvers  , validate:true})
 
 
 
