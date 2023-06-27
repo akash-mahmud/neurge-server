@@ -12,17 +12,20 @@ import { httpServer } from "./app";
 // import typeDefs from "./graphql/schema";
 import { resolvers } from "@generated/type-graphql";
 import * as tq from 'type-graphql';
-import { User } from "@prisma/client";
+import { Prisma, PrismaClient, User } from "@prisma/client";
 import permissions from "./permission";
+import { AuthResolver } from "./resolvers/User";
+import { DefaultArgs } from "@prisma/client/runtime";
 // import { CustomTaskCrud } from "./resolvers/Task";
 // import permissions from "./graphql/permission";
 export interface MyContext {
-  prisma: any
+  prisma:  PrismaClient<Prisma.PrismaClientOptions, never, Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined, DefaultArgs>
 user: User | null
 }
 
 const server:()=>Promise<ApolloServer<MyContext>> = async() => {
-  const schema = await tq.buildSchema({ resolvers  , validate:true})
+  
+  const schema = await tq.buildSchema({ resolvers:[...resolvers , AuthResolver]  , validate:true})
 
 
 

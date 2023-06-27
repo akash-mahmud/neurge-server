@@ -4,86 +4,128 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 generator typegraphql {
   provider = "typegraphql-prisma"
 }
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 enum UserRole {
   admin
   superadmin
   public
-  
 }
+
 model User {
-  id String @id @default(uuid()) 
+  id String @id @default(uuid())
 
-name String
-avater String?
-  email        String        @unique
-  password     String 
-  role         UserRole
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  name      String
+  avater    String?
+  email     String   @unique
+  password  String
+  role      UserRole
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
+  purchasedCategories Category[] @relation("UserPurchasedCategories")
+  purchasedAddons     Addon[]    @relation("userpurchasedAddons")
 }
+
 model Prompt {
   id String @id @default(uuid())
 
-name String
+  name String
 
- description String @db.Text
-taskId String
-task  Task?  @relation(fields: [taskId], references: [id])
+  description String @db.Text
+  taskId      String
+  task        Task?  @relation(fields: [taskId], references: [id])
 
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
+model Addon {
+  id String @id @default(uuid())
+
+  name String
+
+  description String @db.Text
+  taskId      String
+
+  purchasedByUsers User[] @relation("userpurchasedAddons")
+addonBlogCategory AddonBlogCategory[]
+blog Blog[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Task {
   id String @id @default(uuid())
 
-name String
-slug String @unique
-tags String[]
-imoji String
- description String @db.Text
- prompts Prompt[]
- tips Tip[]
-categoryId String
-category  Category?  @relation(fields: [categoryId], references: [id])
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-
+  name        String
+  slug        String    @unique
+  tags        String[]
+  imoji       String
+  description String    @db.Text
+  prompts     Prompt[]
+  tips        Tip[]
+  categoryId  String
+  category    Category? @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Product {
   id String @id @default(uuid())
 
-name String
-slug String @unique
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
+
 model Tip {
   id String @id @default(uuid())
 
+  description String @db.Text
+  taskId      String
+  task        Task?  @relation(fields: [taskId], references: [id])
+}
 
-  description        String @db.Text    
-taskId String
-task  Task?  @relation(fields: [taskId], references: [id])
+model Category {
+  id               String   @id @default(uuid())
+  name             String
+  tasks            Task[]
+  purchasedByUsers User[]   @relation("UserPurchasedCategories")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model AddonBlogCategory {
+    id               String   @id @default(uuid())
+    name String
+addonId String
+  addon        Addon?  @relation(fields: [addonId], references: [id])
+blog Blog[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
 }
-model Category {
-  id String @id @default(uuid())
+model Blog {
+    id               String   @id @default(uuid())
+title String
+imoji String
+description String @db.Text
+addonId String
+  addon        Addon?  @relation(fields: [addonId], references: [id])
 
-  name String
-tasks Task[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+addonBlogCategoryId String?
+  addonBlogCategory        AddonBlogCategory?  @relation(fields: [addonBlogCategoryId], references: [id])
 
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
