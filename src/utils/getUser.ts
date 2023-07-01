@@ -24,9 +24,8 @@ prisma:  PrismaClient<Prisma.PrismaClientOptions, never, Prisma.RejectOnNotFound
 
       const data = jwt.verify(
         authToken,
-        process.env.JWT_SECRET ? process.env.JWT_SECRET : "somesecretkey"
+        process.env.JWT_SECRET ? process.env.JWT_SECRET : "somesecret"
       ) as IJwtPayload;
-
 
       const loggedInUserData = await user.findUnique({
         where: {
@@ -44,7 +43,7 @@ prisma:  PrismaClient<Prisma.PrismaClientOptions, never, Prisma.RejectOnNotFound
 
 
     loggedInuser = null;
-    // console.log(error.message);
+    console.log(error.message);
   }
 
   return loggedInuser;

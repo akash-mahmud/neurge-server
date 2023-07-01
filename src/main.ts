@@ -24,7 +24,8 @@ await startedServer.start()
     json(),
     expressMiddleware(startedServer, {
       context: async ({ req }) => {
-        const user = await getUser(req.headers.authorization,prisma );
+        
+        const user = await getUser(req.headers.authorization, prisma );
 
         // return { user, token: req.headers.authorization };
 

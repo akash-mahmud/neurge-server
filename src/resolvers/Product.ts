@@ -1,20 +1,20 @@
 import { Resolver,  Arg, Ctx, Query, ObjectType, Field, InputType, Args } from 'type-graphql';
-import { Task, FindManyTaskArgs } from "@generated/type-graphql";
+import { Product, FindManyProductArgs } from "@generated/type-graphql";
 import { MyContext } from '../server';
 
 
 
-@Resolver(of => Task)
-export class TaskForUserResolver {
-@Query(returns => [Task])
-async getUserTasks( 
-    @Args() args: FindManyTaskArgs,
-    @Ctx() { prisma, user }: MyContext,):Promise<Task[] |[]>{
+@Resolver(of => Product)
+export class ProductsForUserResolver {
+@Query(returns => [Product])
+async getUserProducts( 
+    @Args() args: FindManyProductArgs,
+    @Ctx() { prisma, user }: MyContext,):Promise<Product[] |[]>{
         try {
             
      
     if (user?.nurgePlus) {
-        return await  prisma.task.findMany({
+        return await  prisma.product.findMany({
             ...args,
          
         })
@@ -29,12 +29,11 @@ async getUserTasks(
             }
         })
         const categoryIds = purchasedProductIds?.map((data) => data.id)
-        return await  prisma.task.findMany({
+        return await  prisma.product.findMany({
             ...args,
             where:{
                 ...args.where,
                 categoryId: {
-                    ...args.where?.categoryId,
                     in: categoryIds
                 }
             }
