@@ -30,7 +30,7 @@ model User {
   role      UserRole
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
+nurgePlus Boolean @default(false)
   purchasedCategories Category[] @relation("UserPurchasedCategories")
   purchasedAddons     Addon[]    @relation("userpurchasedAddons")
 }
@@ -53,9 +53,8 @@ model Addon {
 
   name String
 
-  description String @db.Text
-  taskId      String
-
+  description String? @db.Text
+img String
   purchasedByUsers User[] @relation("userpurchasedAddons")
 addonBlogCategory AddonBlogCategory[]
 blog Blog[]
@@ -81,8 +80,15 @@ model Task {
 
 model Product {
   id String @id @default(uuid())
-
+  categoryId  String
+  category    Category? @relation(fields: [categoryId], references: [id])
   name      String
+  description      String @db.Text
+  image      String
+  taskAutomateCount Int
+topTierPromptCount Int
+moneyBackGuarantee Int
+
   slug      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -100,6 +106,7 @@ model Category {
   id               String   @id @default(uuid())
   name             String
   tasks            Task[]
+  products            Product[]
   purchasedByUsers User[]   @relation("UserPurchasedCategories")
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
