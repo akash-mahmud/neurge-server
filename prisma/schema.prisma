@@ -55,6 +55,8 @@ model Addon {
 
   description String? @db.Text
 img String
+purchaseUrl String?
+imoji String?
   purchasedByUsers User[] @relation("userpurchasedAddons")
 addonBlogCategory AddonBlogCategory[]
 blog Blog[]

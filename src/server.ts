@@ -19,6 +19,8 @@ import { DefaultArgs } from "@prisma/client/runtime";
 import { ProductsForUserResolver } from "./resolvers/Product";
 import { TaskForUserResolver } from "./resolvers/Task";
 import { CategoriesForUserResolver } from "./resolvers/Category";
+import { AddonForUserResolver } from "./resolvers/Addon";
+import { BlogForUserResolver } from "./resolvers/Blog";
 // import { CustomTaskCrud } from "./resolvers/Task";
 // import permissions from "./graphql/permission";
 export interface MyContext {
@@ -28,7 +30,7 @@ user: User | null
 
 const server:()=>Promise<ApolloServer<MyContext>> = async() => {
   
-  const schema = await tq.buildSchema({ resolvers:[...resolvers , AuthResolver , ProductsForUserResolver , TaskForUserResolver , CategoriesForUserResolver]  , validate:true})
+  const schema = await tq.buildSchema({ resolvers:[...resolvers , AuthResolver , ProductsForUserResolver , TaskForUserResolver , CategoriesForUserResolver, AddonForUserResolver , BlogForUserResolver]  , validate:true})
 
 
 
