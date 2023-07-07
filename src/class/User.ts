@@ -1,18 +1,26 @@
-import { Field, InputType, ObjectType } from "type-graphql";
-import { User, CreateOneUserArgs, UserCreateInput } from "@generated/type-graphql";
+import { Args, ArgsType, Field, InputType, ObjectType, } from "type-graphql";
+import { User,
+
+
+
+
+
+
+
+} from "@generated/type-graphql";
 
 // export type ResponceUser = Omit<User, 'password'>;
 
 @ObjectType()
 export class LoginResponsce {
+    @Field({ nullable: true} )
+    accessToken?: String
+    @Field({ nullable: true} )
+    user?: User
     @Field()
-    accessToken: String
+    success?: Boolean
     @Field()
-    user: User
-    @Field()
-    success: Boolean
-    @Field()
-    isAuthenticated: Boolean
+    isAuthenticated?: Boolean
 
     @Field()
     message: String
@@ -30,3 +38,4 @@ export class CreateOneUserArgsCustom implements Partial<User>{
     password: string;
 
 }
+
