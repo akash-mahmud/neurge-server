@@ -8,6 +8,7 @@ import { expressMiddleware } from "@apollo/server/express4";
 import { json } from "body-parser";
 import { Prisma, PrismaClient } from "@prisma/client";
 import getUser from './utils/getUser';
+import { graphqlUploadExpress } from 'graphql-upload-ts';
 const prisma = new PrismaClient();
 const main = async () => {
   
@@ -22,6 +23,7 @@ await startedServer.start()
       origin: ["http://localhost:3000" , 'http://localhost:3002' , 'http://localhost:3001'],
     }),
     json(),
+    graphqlUploadExpress(),
     expressMiddleware(startedServer, {
       context: async ({ req }) => {
         

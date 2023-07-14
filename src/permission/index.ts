@@ -15,7 +15,6 @@ const permissions: IMiddlewareGenerator<any, any, any> = shield({
 
     addonBlogCategories: isAuthenticated,
 
-
     addonBlogCategory: isAuthenticated,
 
 

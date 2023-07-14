@@ -2,6 +2,7 @@
 import { ApolloServer } from "@apollo/server";
 
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { graphqlUploadExpress }from 'graphql-upload-ts';
 
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { applyMiddleware } from "graphql-middleware";
@@ -21,6 +22,7 @@ import { TaskForUserResolver } from "./resolvers/Task";
 import { CategoriesForUserResolver } from "./resolvers/Category";
 import { AddonForUserResolver } from "./resolvers/Addon";
 import { BlogForUserResolver } from "./resolvers/Blog";
+import { MediaResolver } from "./resolvers/Media";
 // import { CustomTaskCrud } from "./resolvers/Task";
 // import permissions from "./graphql/permission";
 export interface MyContext {
@@ -30,7 +32,7 @@ user: User | null
 
 const server:()=>Promise<ApolloServer<MyContext>> = async() => {
   
-  const schema = await tq.buildSchema({ resolvers:[...resolvers , AuthResolver , ProductsForUserResolver , TaskForUserResolver , CategoriesForUserResolver, AddonForUserResolver , BlogForUserResolver]  , validate:true})
+  const schema = await tq.buildSchema({ resolvers:[...resolvers , AuthResolver , ProductsForUserResolver , TaskForUserResolver , CategoriesForUserResolver, AddonForUserResolver , BlogForUserResolver , MediaResolver]  , validate:true})
 
 
 
@@ -39,6 +41,7 @@ const server:()=>Promise<ApolloServer<MyContext>> = async() => {
     permissions
   ),   plugins: 
    [ApolloServerPluginDrainHttpServer({ httpServer})],
+   
  })
 }
 
