@@ -20,7 +20,7 @@ await startedServer.start()
   app.use(
     "/graphql",
     cors<cors.CorsRequest>({
-      origin: ["http://localhost:3000" , 'http://localhost:3002' , 'http://localhost:3001'],
+      origin: ["http://localhost:3000" , 'http://localhost:3002' , 'http://localhost:3001' , 'https://admin.neurge.app' , 'https://www.neurge.app'],
     }),
     json(),
     graphqlUploadExpress(),
