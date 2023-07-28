@@ -9,7 +9,10 @@ import { json } from "body-parser";
 import { Prisma, PrismaClient } from "@prisma/client";
 import getUser from './utils/getUser';
 import { graphqlUploadExpress } from 'graphql-upload-ts';
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  errorFormat: 'pretty',
+
+});
 const main = async () => {
   
   const startedServer = await server()

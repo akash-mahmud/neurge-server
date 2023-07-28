@@ -33,6 +33,6 @@ jobs:
           sudo touch .env
           sudo echo "${{ secrets.ENV_FILE }}" > .env
           sudo pnpm install 
-          sudo pnpm  prisma dev migrate
+          sudo pnpm  prisma generate
           sudo pnpm run build 
           sudo pm2 restart neurge-server

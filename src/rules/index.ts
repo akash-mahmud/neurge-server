@@ -11,7 +11,6 @@ export const isAuthenticated = rule({ cache: "contextual" })(
 
 export const isAdmin = rule({ cache: "contextual" })(
   (_: any, __: any, { user }: MyContext) => {
-    console.log(user !== null && (user.role === UserRole.admin || user.role === UserRole.superadmin));
     
     return user !== null && (user.role === UserRole.admin || user.role === UserRole.superadmin);
   }

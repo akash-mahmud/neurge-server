@@ -350,15 +350,6 @@ const permissions: IMiddlewareGenerator<any, any, any> = shield({
 
 
 
-    // login:and(isAuthenticated , isAdmin),  
-
-
-
-    // loginAdmin:and(isAuthenticated , isAdmin),  
-
-
-
-    // register:and(isAuthenticated , isAdmin),  
 
 
 
@@ -441,6 +432,6 @@ const permissions: IMiddlewareGenerator<any, any, any> = shield({
     userUpdateByAdmin: and(isAuthenticated, isAdmin),
 
   },
-});
+},  {allowExternalErrors: true});
 
 export default permissions;
