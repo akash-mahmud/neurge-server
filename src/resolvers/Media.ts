@@ -16,15 +16,23 @@ export interface Upload {
 export class MediaResolver{
     @Mutation(() => fileUploadResponsce, { nullable: true })
     async uploadFile(@Arg('file', () => GraphQLUpload) file: Upload): Promise<fileUploadResponsce> {
-        // Handle file upload logic here
+      try {
+                // Handle file upload logic here
         
-        const response:any = await handleFileUpload(file);
+                const response:any = await handleFileUpload(file);
 
+                return {
+                  message:'success',
+                  file:response.Key ,
+                  success:true
+                }
+      } catch (error) {
         return {
-          message:'success',
-          file:response.Key ,
-          success:true
+          message:'failed',
+          success:false,
         }
+      }
+
       }
     
 }

@@ -7,7 +7,7 @@ export class fileUploadResponsce {
     @Field()
 
     success: Boolean
-    @Field()
+    @Field({nullable:true})
 
-    file:string
+    file?:string
 }

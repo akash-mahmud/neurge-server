@@ -16,6 +16,7 @@ const s3Client = new S3({
 
 
 const handleFileUpload = async (file: Upload) => {
+  
   const { createReadStream, filename, mimetype } =  file;
 
   const key = v4();
