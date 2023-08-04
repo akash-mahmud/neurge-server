@@ -26,6 +26,7 @@ model User {
   name      String
   avater    String?
   email     String   @unique
+  
   password  String
   role      UserRole
   createdAt DateTime @default(now())
@@ -110,6 +111,7 @@ model Category {
   tasks            Task[]
   products            Product[]
   purchasedByUsers User[]   @relation("UserPurchasedCategories")
+  colour String @default("#1574EA")
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 }

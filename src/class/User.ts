@@ -39,3 +39,15 @@ export class CreateOneUserArgsCustom implements Partial<User>{
 
 }
 
+
+@InputType({ description: "New user data" })
+export class UpdateProfileArgs implements Partial<User>{
+    @Field()
+    name: string;
+    @Field({ nullable: true })
+    avater?: string;
+    @Field()
+    email: string;
+
+
+}

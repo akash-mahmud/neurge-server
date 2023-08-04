@@ -2,7 +2,7 @@ import { Resolver, Mutation, Arg, Ctx, Args, ArgsType, Field } from 'type-graphq
 import { compare, hash } from 'bcryptjs';
 import {
   User, UserCreateInput, CreateOneUserArgs,
-  UpdateOneUserArgs
+  UpdateOneUserArgs, UserUpdateInput
 } from "@generated/type-graphql";
 import { MyContext } from '../server';
 import { CreateOneUserArgsCustom, LoginResponsce, } from '../class/User';
@@ -228,6 +228,90 @@ export class AuthResolver {
           ...args
         })
       }
+
+
+
+
+      return {
+        message: 'success',
+        success: true
+      };
+    } catch (error: any) {
+      return {
+        message: error.message,
+        success: false
+      };
+    }
+
+  }
+
+  @Mutation(() => defaultResponsce, { nullable: true })
+  async updateProfile(
+    @Arg('input') args: UserUpdateInput,
+    @Arg('email', ) email:String,
+    @Args() args2: customTypeForUserUpdate,
+    @Ctx() ctx: MyContext
+  ): Promise<defaultResponsce | null> {
+    try {
+
+      if (email === ctx.user?.email) {
+        if (args2.updatePass && args2.newPass && args2.oldPassword && args.email?.set) {
+
+          const user = await ctx.prisma.user.findUnique({
+            where: {
+              email: ctx.user?.email
+            }
+          })
+          if (user) {
+            const isPasswordValid = await compare(args2.oldPassword, user?.password);
+            if (isPasswordValid) {
+              const hashedPassword = await hash(args2.newPass as string, 10)
+              await ctx.prisma.user.update({
+                where: {
+                  email: ctx.user?.email,
+
+                },
+                data: {
+                  password: {
+                    set: hashedPassword
+                  }
+                }
+              })
+
+              return {
+                message: 'success',
+                success: true
+              };
+            } else {
+              return {
+                message: "old password is wrong We can't authorize you",
+                success: false
+
+
+              }
+            }
+
+          }
+        } else {
+          delete args.password
+          await ctx.prisma.user.update({
+            data: {
+              ...args
+            }, where: {
+              email: ctx.user?.email,
+
+            }
+          })
+        }
+      } else {
+        return {
+          message: 'failed',
+          success: false
+        };
+      }
+
+
+
 
 
 
