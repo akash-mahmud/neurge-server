@@ -13,12 +13,7 @@ async getUserAddons(
         try {
             
      
-    if (user?.nurgePlus) {
-        return await  prisma.addon.findMany({
-            ...args,
-         
-        })
-    }else {
+ 
         const purchasedProductIds = await prisma.user.findUnique({
             where:{
                 id: user?.id
@@ -38,7 +33,7 @@ async getUserAddons(
                 }
             }
         })
-    }
+
        
         } catch (error) {
             console.log(error);
@@ -56,9 +51,7 @@ async getUserNotPurchasedAddons(
         try {
             
      
-    if (user?.nurgePlus) {
-        return   []
-    }else {
+
         const purchasedProductIds = await prisma.user.findUnique({
             where:{
                 id: user?.id
@@ -78,7 +71,7 @@ async getUserNotPurchasedAddons(
                 }
             }
         })
-    }
+
        
         } catch (error) {
             console.log(error);
@@ -95,13 +88,7 @@ async getUserPurchasedSingleAddon(
     @Ctx() { prisma, user }: MyContext,):Promise<Addon |null>{
         try {
             
-     
-    if (user?.nurgePlus) {
-        return   prisma.addon.findUnique({
-            ...args,
-            
-        })
-    }else {
+
         const addonBelongsTotheUser = await prisma.user.findUnique({
             where:{
                 id: user?.id
@@ -126,7 +113,7 @@ async getUserPurchasedSingleAddon(
         }else{
 return null
         }
-    }
+
        
         } catch (error) {
             console.log(error);
