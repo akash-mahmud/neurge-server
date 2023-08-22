@@ -38,6 +38,8 @@ const permissions: IMiddlewareGenerator<any, any, any> = shield({
 
 
     aggregatePrompt: isAuthenticated,
+    getUserNotPurchasedCategories: isAuthenticated,
+    getUserNotPurchasedProducts: isAuthenticated,
 
 
     aggregateTask: isAuthenticated,

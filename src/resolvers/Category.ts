@@ -47,6 +47,44 @@ async getUserCategories(
         }
        
 }
+@Query(returns => [Category])
 
+async getUserNotPurchasedCategories( 
+    @Args() args: FindManyCategoryArgs,
+    @Ctx() { prisma, user }: MyContext,):Promise<Category[] |[]>{
+        try {
+            
+     
+    if (user?.nurgePlus) {
+        return []
+    }else {
 
+        const purchasedProductIds = await prisma.user.findUnique({
+            where:{
+                id: user?.id
+            }
+        }).purchasedCategories({
+            select:{
+                id:true
+            }
+        })
+        const categoryIds = purchasedProductIds?.map((data) => data.id)
+        return await  prisma.category.findMany({
+            ...args,
+            where:{
+                ...args.where,
+                id: {
+                    notIn: categoryIds
+                }
+            }
+        })
+    }
+       
+        } catch (error) {
+            console.log(error);
+            
+            return []
+        }
+       
+}
 }
